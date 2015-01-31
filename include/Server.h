@@ -16,9 +16,13 @@ public:
     Server(const Server& orig);
     virtual ~Server();
     
-    bool    Init(std::string, int);
+    bool        Init(int);
+    std::string get_etat();
+    
 private:
-
+    bool            _err;
+    int             _fd_server;
+    std::string     _etat;
 };
 
 #endif	/* SERVER_H */
