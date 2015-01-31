@@ -13,9 +13,6 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-#include <resolv.h>
-#include "openssl/ssl.h"
-#include "openssl/err.h"
 
 Server::Server() {
 }
@@ -35,8 +32,6 @@ bool    Server::Init(int port)
     _etat.assign("Init :");
     _fd_server = socket(PF_INET, SOCK_STREAM, 0);
     
-    //bzero(&addr, sizeof(addr));
-    
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
     addr.sin_addr.s_addr = INADDR_ANY;
@@ -51,8 +46,22 @@ bool    Server::Init(int port)
         std::cout << "Can't configure listening port" << std::endl;
         _err = true;
     }
-    _etat.assign("Init OK");
+    if (_err)
+    {
+        _etat.assign("Init Fail");
+        return false;
+    }
     
+    sockaddr_in addr_client;
+    socklen_t len = sizeof (addr_client);
+    
+    
+    int client = accept(_fd_server, (struct sockaddr*) &addr_client, &len); 
+    std::cout   << "User co !" << inet_ntoa(addr_client.sin_addr) << std::endl;
+    
+    
+    _etat.assign("Init OK");
+    return true;
     
     
     /*

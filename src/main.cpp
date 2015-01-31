@@ -20,7 +20,8 @@ int main(int argc, char** argv) {
     
     Server  server;
     
-    server.Init(5050);
+    if (!server.Init(5050))
+        return -1;
     std::cout << "etat du server [" << server.get_etat() << "]" << std::endl;
     std::cout << "ac " << argc << std::endl;
     return 0;
