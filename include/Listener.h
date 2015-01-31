@@ -8,12 +8,17 @@
 #ifndef LISTENER_H
 #define	LISTENER_H
 
+#include <iostream>
+
 class Listener {
 public:
     Listener();
     Listener(const Listener& orig);
     virtual ~Listener();
+    void    set_fd(int);
 private:
+    void    Do_listen();
+    int     _fd;
 
 };
 

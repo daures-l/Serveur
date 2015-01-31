@@ -10,6 +10,8 @@
 
 #include    <string>
 
+#include    "../include/Listener.h"
+
 class Server {
 public:
     Server();
@@ -18,11 +20,13 @@ public:
     
     bool        Init(int);
     std::string get_etat();
-    
+    void        Run();
 private:
     bool            _err;
     int             _fd_server;
     std::string     _etat;
+    
+    Listener    list;
 };
 
 #endif	/* SERVER_H */

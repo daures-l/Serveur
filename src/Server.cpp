@@ -9,9 +9,7 @@
 #include <string>
 #include <iostream>
 
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <sys/types.h>
+
 #include <netinet/in.h>
 
 Server::Server() {
@@ -52,36 +50,28 @@ bool    Server::Init(int port)
         return false;
     }
     
-    sockaddr_in addr_client;
-    socklen_t len = sizeof (addr_client);
-    
-    
-    int client = accept(_fd_server, (struct sockaddr*) &addr_client, &len); 
-    std::cout   << "User co !" << inet_ntoa(addr_client.sin_addr) << std::endl;
-    
-    
     _etat.assign("Init OK");
     return true;
-    
-    
-    /*
-    
-        while (1) {
-            struct sockaddr_in addr;
-            socklen_t len = sizeof (addr);
-            SSL *ssl;
-
-            int client = accept(server, (struct sockaddr*) &addr, &len); 
-            printf("Connection: %s:%d\n", inet_ntoa(addr.sin_addr), ntohs(addr.sin_port));
-            ssl = SSL_new(ctx); 
-            SSL_set_fd(ssl, client); 
-            Servlet(ssl); }
-        close(server);
-        SSL_CTX_free(ctx);
-        */
 }
 
 std::string Server::get_etat()
 {
     return _etat;
+}
+
+void        Server::Run()
+{
+    bool    exit = true;
+    std::string	buf;
+    
+    while (exit)
+    {
+        buf.clear();
+        std::getline(std::cin, buf);
+
+        if (buf.compare("exit") == 0)
+            exit = false;
+        else if (!buf.compare("etat"))
+            std::cout << get_etat() << std::endl;
+    }
 }
